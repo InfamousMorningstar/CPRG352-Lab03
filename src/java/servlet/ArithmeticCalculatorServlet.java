@@ -80,10 +80,11 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
                     request.setAttribute("message", "---");
                     break;
             }
+             getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
+        return;
         }
 
         
-        getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
-        return;
+       
     }
 }
