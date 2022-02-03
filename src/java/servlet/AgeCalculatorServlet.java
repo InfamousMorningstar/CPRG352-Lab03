@@ -19,7 +19,8 @@ public class AgeCalculatorServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/WEB_INF/agecalculator.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/WEB-INF/agecalculator.jsp").forward(request, response);
+        return;
        
     }
 
@@ -35,7 +36,8 @@ public class AgeCalculatorServlet extends HttpServlet {
             request.setAttribute("message", "You must give you current age.");
             
             
-            getServletContext().getRequestDispatcher("/WEB_INF/agecalculator.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/WEB-INF/agecalculator.jsp").forward(request, response);
+            return;
             
           
         }
