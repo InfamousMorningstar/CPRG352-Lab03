@@ -18,6 +18,7 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
         // this will display the requested JSP as a view
         request.setAttribute("message", "---");
         getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
+        return;
     }
 
     @Override
@@ -83,5 +84,6 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
 
         
         getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
+        return;
     }
 }
