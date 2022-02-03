@@ -15,7 +15,11 @@
         <h1>Age Calculator</h1>
         <form method ="post">
             <label>Enter your age:</label>
-            <input type="text" name="user_age"
+            <input type="text" name="user_age" value="${userAge}" placeholder="69">
+            <br>
+            <input type="submit" value="Age next birthday">
         </form>
+            <p>${message}</p>
+            <a href="arithmeticcalculator.jsp">Arithmetic Calculator</a>
     </body>
 </html>

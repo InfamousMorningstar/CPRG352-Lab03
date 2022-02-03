@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,69 +12,76 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ArithmeticCalculatorServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ArithmeticCalculatorServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ArithmeticCalculatorServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // this will display the requested JSP as a view
+        request.setAttribute("message", "---");
+        getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // capture the parameters from the POST request (the form)
+        String firstnumber = request.getParameter("first_number");
+        String secondnumber = request.getParameter("second_number");
+
+        // set the attributes for the JSP
+        request.setAttribute("firstNumber", firstnumber);
+        request.setAttribute("secondNumber", secondnumber);
+
+        String operation = request.getParameter("button");
+
+        // validation: if the parameters don't exist or are empty, show the form again
+        if (firstnumber == null || firstnumber.equals("") || secondnumber == null || secondnumber.equals("")) {
+            // Create a helpful message to send to the user
+            request.setAttribute("message", "Invalid");
+            // forward the request and response objects to the JSP
+            //display the form again
+            getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
+            return; 
+        } 
+        
+        else if (firstnumber.matches("[A-Za-z]{1,50}") || secondnumber.matches("[A-Za-z]{1,50}")) {
+            request.setAttribute("message", "Invalid");
+            getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
+            return; 
+        } 
+        
+        else {
+            switch (operation) {
+                case "+":
+                    int parsedNumberOneAddition = Integer.parseInt(firstnumber);
+                    int parsedNumberTwoAddition = Integer.parseInt(secondnumber);
+                    int additionAnswer = parsedNumberOneAddition + parsedNumberTwoAddition;
+                    request.setAttribute("message", additionAnswer);
+                    break;
+                case "-":
+                    int firstNumberInt = Integer.parseInt(firstnumber);
+                    int secondNumberInt = Integer.parseInt(secondnumber);
+                    int subtractionAnswer = firstNumberInt - secondNumberInt;
+                    request.setAttribute("message", subtractionAnswer);
+                    break;
+                case "*":
+                    int firstNumberIntMultiply = Integer.parseInt(firstnumber);
+                    int secondNumberIntMultiply = Integer.parseInt(secondnumber);
+                    int multiplicationAnswer = firstNumberIntMultiply * secondNumberIntMultiply;
+                    request.setAttribute("message", multiplicationAnswer);
+                    break;
+                case "%":
+                    int firstNumberIntModulus = Integer.parseInt(firstnumber);
+                    int secondNumberIntModulus = Integer.parseInt(secondnumber);
+                    int modulusAnswer = firstNumberIntModulus % secondNumberIntModulus;
+                    request.setAttribute("message", modulusAnswer);
+                    break;
+                default:
+                    request.setAttribute("message", "---");
+                    break;
+            }
+        }
+
+        
+        getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }
